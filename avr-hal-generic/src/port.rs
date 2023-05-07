@@ -121,6 +121,15 @@ impl<PIN: PinOps> Pin<mode::Input<mode::Floating>, PIN> {
     }
 }
 
+impl<PIN: PinOps, MODE: mode::Io> Pin<MODE, PIN> {
+    /// Returns the underlying pin for direct manipulation
+    /// This loses any type safety provided by this struct, but allows more precise operations
+    /// through its `unsafe` methods.
+    pub fn into_raw_pin(self) -> PIN {
+        self.pin
+    }
+}
+
 /// # Configuration
 /// To change the mode of a pin, use one of the following conversion functions.  They consume the
 /// original [`Pin`] and return one with the desired mode.  Only when a pin is in the correct mode,
